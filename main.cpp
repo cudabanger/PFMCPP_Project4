@@ -93,19 +93,23 @@ good to go!
 
 #include <iostream>
 
-struct FloatType {
+struct FloatType
+{
     float add( float lhs, float rhs )
     {
         return lhs + rhs;
     }
+
     float subtract( float lhs, float rhs )
     {
          return lhs - rhs;
     }
+
     float multiply( float lhs, float rhs )
     {
          return lhs * rhs;
     }
+
     float divide( float lhs, float rhs )
     {
         if (!(rhs > 0 || rhs < 0))
@@ -114,19 +118,23 @@ struct FloatType {
     }
 };
 
-struct DoubleType {
+struct DoubleType
+{
     double add( double lhs, double rhs )
     {
          return lhs + rhs;
     }
+
     double subtract( double lhs, double rhs )
     {
          return lhs - rhs;
     }
+
     double multiply( double lhs, double rhs )
     {
          return lhs * rhs;
     }
+
     double divide( double lhs, double rhs )
     {
         if (!(rhs > 0 || rhs < 0))
@@ -135,19 +143,23 @@ struct DoubleType {
     }
 };
 
-struct IntType {
+struct IntType
+{
     int add( int lhs, int rhs )
     {
         return lhs + rhs;
     }
+
     int subtract( int lhs, int rhs )
     {
         return lhs - rhs;
     }
+
     int multiply( int lhs, int rhs )
     {
         return lhs * rhs;
     }
+    
     int divide( int lhs, int rhs )
     {
         if (rhs == 0)
