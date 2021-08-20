@@ -114,6 +114,162 @@ good to go!
 
 #include <iostream>
 
+struct FloatType
+{
+    float* value = nullptr;
+
+    FloatType(float _value)
+    {
+        value = new float;
+        *value = _value;
+    }
+    ~FloatType()
+    {
+        if ( value != nullptr )
+            delete value;
+    }
+
+    FloatType& add( float operand )
+    {
+        if (value != nullptr)    
+            *value = *value + operand;
+
+        return *this;
+    }
+
+    FloatType& subtract( float operand )
+    {
+        if (value != nullptr)   
+            *value = *value - operand;
+
+        return *this;
+    }
+
+    FloatType& multiply( float operand )
+    {
+        if (value != nullptr) 
+            *value = *value * operand;
+
+        return *this;
+    }
+
+    FloatType& divide( float operand )
+    {
+        if (!(operand > 0 || operand < 0))
+            std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
+
+        if (value != nullptr)
+            *value = (*value) / operand;
+
+        return *this;
+    }
+};
+
+struct DoubleType
+{
+    double* value = nullptr;
+
+    DoubleType(double _value)
+    {
+        value = new double;
+        *value = _value;
+    }
+    ~DoubleType()
+    {
+        if ( value != nullptr )
+            delete value;
+    }
+
+    DoubleType& add( double operand )
+    {
+        if (value != nullptr)    
+            *value = operand + *value;
+
+        return *this;
+    }
+
+    DoubleType& subtract( double operand )
+    {
+        if (value != nullptr)   
+            *value = *value - operand;
+
+        return *this;
+    }
+
+    DoubleType& multiply( double operand )
+    {
+        if (value != nullptr) 
+            *value = *value * operand;
+
+        return *this;
+    }
+    
+
+    DoubleType& divide( double operand )
+    {
+        if (!(operand > 0 || operand < 0))
+            std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
+
+        if (value != nullptr)
+            *value = (*value) / operand;
+
+        return *this;
+    }
+};
+
+struct IntType
+{
+    int* value = nullptr;
+
+    IntType(int _value)
+    {
+        value = new int;
+        *value = _value;
+    }
+    ~IntType()
+    {
+        if ( value != nullptr )
+            delete value;
+    }
+
+    IntType& add( int operand )
+    {
+        if (value != nullptr)    
+            *value = *value + operand;
+
+        return *this;
+    }
+
+    IntType& subtract( int operand )
+    {
+        if (value != nullptr)   
+            *value = *value - operand;
+
+        return *this;
+    }
+
+    IntType& multiply( int operand )
+    {
+        if (value != nullptr) 
+            *value = *value * operand;
+
+        return *this;
+    }
+    
+    IntType& divide( int operand )
+    {
+        if (operand != 0)
+        {
+            *value = *value / operand;    
+        }
+        else
+        {
+            std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl ;
+        }
+        return *this;
+    }
+};
+
 int main()
 {   
     //testing instruction 0
@@ -169,7 +325,7 @@ int main()
 
     return 0;
 }
-
+*/
 
 
 /*
@@ -186,30 +342,56 @@ int main()
  Wait for my code review.
  */
 
-#include <iostream>
+/*#include <iostream>
 
 struct FloatType
 {
-    float add( float lhs, float rhs )
+    float* value = nullptr;
+
+    FloatType(float _myFloat)
     {
-        return lhs + rhs;
+        value = new float;
+        *value = _myFloat;
+    }
+    ~FloatType()
+    {
+        if ( value != nullptr )
+            delete value;
     }
 
-    float subtract( float lhs, float rhs )
+    FloatType& add( float operand )
     {
-         return lhs - rhs;
+        if (value != nullptr)    
+            *value = operand + *value;
+
+        return *this;
     }
 
-    float multiply( float lhs, float rhs )
+    FloatType& subtract( float operand )
     {
-         return lhs * rhs;
+        if (value != nullptr)   
+            *value = operand - *value;
+
+        return *this;
     }
 
-    float divide( float lhs, float rhs )
+    FloatType& multiply( float operand )
     {
-        if (!(rhs > 0 || rhs < 0))
+        if (value != nullptr) 
+            *value = operand * *value;
+
+        return *this;
+    }
+
+    FloatType& divide( float operand )
+    {
+        if (!(operand > 0 || operand < 0))
             std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
-        return lhs / rhs;
+
+        if (value != nullptr)
+            *value = (*value) / operand;
+
+        return *this;
     }
 };
 
@@ -303,5 +485,5 @@ int main()
 
     std::cout << "good to go!" << std::endl;
 }
-
+*/
 
