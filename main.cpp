@@ -164,7 +164,7 @@ struct FloatType
 
     FloatType& divide( float operand )
     {
-        if (operand != 0.f)
+        if (operand == 0.f)
             std::cout << "warning: floating point division by zero!" << std::endl; 
 
         if (value != nullptr)
@@ -230,7 +230,7 @@ struct DoubleType
 
     DoubleType& divide( double operand )
     {
-        if (operand != 0.0)
+        if (operand == 0.0)
             std::cout << "warning: floating point division by zero!" << std::endl;
 
         if (value != nullptr)
