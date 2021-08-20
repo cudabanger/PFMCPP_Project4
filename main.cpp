@@ -16,7 +16,7 @@ New/This/Pointers/References conclusion
 struct A {};
 struct HeapA
 {
-    HeapA():myA(new A) { }
+    HeapA() : myA(new A) { }
     ~HeapA(){ delete myA;  } 
     A* myA = nullptr;
 };
@@ -118,7 +118,7 @@ struct FloatType
 {
     float* value = nullptr;
 
-    FloatType(float _value):value(new float(_value))
+    FloatType(float _value) : value(new float(_value))
     {
     }
     ~FloatType()
@@ -182,7 +182,7 @@ struct DoubleType
 {
     double* value = nullptr;
 
-    DoubleType(double _value):value(new double(_value))
+    DoubleType(double _value) : value(new double(_value))
     {
         
     }
@@ -248,7 +248,7 @@ struct IntType
 {
     int* value = nullptr;
 
-    IntType(int _value):value(new int(_value))
+    IntType(int _value) : value(new int(_value))
     {
     
     }
