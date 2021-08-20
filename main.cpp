@@ -13,7 +13,13 @@ New/This/Pointers/References conclusion
      on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
          on the heap without leaking, without using smart pointers. 
  */
-
+struct A {};
+struct HeapA
+{
+    HeapA() : myA(new A) { }
+    ~HeapA(){ delete myA;  } 
+    A* myA = nullptr;
+};
 
 
 
@@ -104,63 +110,386 @@ good to go!
 
 #include <iostream>
 
-int main()
-{   
-    //testing instruction 0
-    HeapA heapA; 
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
-    //assign heap primitives
-    FloatType ft ( 2.0f );
-    DoubleType dt ( 2 );
-    IntType it ( 2 ) ;
+struct FloatType
+{
+    float* value = nullptr;
 
-    std::cout << "FloatType add result=" << ft.add( 2.0f ).value << std::endl;
-    std::cout << "FloatType subtract result=" << ft.subtract( 2.0f ).value << std::endl;
-    std::cout << "FloatType multiply result=" << ft.multiply( 2.0f ).value << std::endl;
-    std::cout << "FloatType divide result=" << ft.divide( 16.0f).value << std::endl << std::endl;
+    FloatType(float _value) : value(new float(_value))
+    {
+    }
+    ~FloatType()
+    {
+        delete value;
+    }
 
-    std::cout << "DoubleType add result=" << dt.add(2.0).value << std::endl;
-    std::cout << "DoubleType subtract result=" << dt.subtract(2.0).value << std::endl;
-    std::cout << "DoubleType multiply result=" << dt.multiply(2.0).value << std::endl;
-    std::cout << "DoubleType divide result=" << dt.divide(5.f).value << std::endl << std::endl;
+    FloatType& add( float operand )
+    {
+        if (value != nullptr)    
+            *value += operand;
 
-    std::cout << "IntType add result=" << it.add(2).value << std::endl;
-    std::cout << "IntType subtract result=" << it.subtract(2).value << std::endl;
-    std::cout << "IntType multiply result=" << it.multiply(2).value << std::endl;
-    std::cout << "IntType divide result=" << it.divide(3).value << std::endl << std::endl;
-    std::cout << "Chain calculation = " << (it.multiply(1000).divide(2).subtract(10).add(100)).value << std::endl;
+        return *this;
+    }
 
-        // FloatType object instanciation and method tests
-    // --------
-    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft.add( 3.0f ).multiply(1.5f).divide(5.0f).value << std::endl;
-       
-    std::cout << "---------------------\n" << std::endl; 
+    FloatType& add(const FloatType& ft);
+    FloatType& add(const DoubleType& ft);
+    FloatType& add(const IntType& ft);
+
+    FloatType& subtract( float operand )
+    {
+        if (value != nullptr)   
+            *value -= operand;
+
+        return *this;
+    }
+
+    FloatType& subtract(const FloatType& ft);
+    FloatType& subtract(const DoubleType& ft);
+    FloatType& subtract(const IntType& ft);
+
+    FloatType& multiply( float operand )
+    {
+        if (value != nullptr) 
+            *value *= operand;
+
+        return *this;
+    }
+
+    FloatType& multiply(const FloatType& ft);
+    FloatType& multiply(const DoubleType& ft);
+    FloatType& multiply(const IntType& ft);
+
+    FloatType& divide( float operand )
+    {
+        if (operand == 0.f)
+            std::cout << "warning: floating point division by zero!" << std::endl; 
+
+        if (value != nullptr)
+            *value /= operand;
+
+        return *this;
+    }
+
+    FloatType& divide(const FloatType& ft);
+    FloatType& divide(const DoubleType& ft);
+    FloatType& divide(const IntType& ft);
+};
+
+struct DoubleType
+{
+    double* value = nullptr;
+
+    DoubleType(double _value) : value(new double(_value))
+    {
+        
+    }
+    ~DoubleType()
+    {
+        delete value;
+    }
+
+    DoubleType& add( double operand )
+    {
+        if (value != nullptr)    
+            *value += operand;
+
+        return *this;
+    }
+
+    DoubleType& add(const FloatType& ft);
+    DoubleType& add(const DoubleType& ft);
+    DoubleType& add(const IntType& ft);
+
+    DoubleType& subtract( double operand )
+    {
+        if (value != nullptr)   
+            *value -= operand;
+
+        return *this;
+    }
+
+    DoubleType& subtract(const FloatType& ft);
+    DoubleType& subtract(const DoubleType& ft);
+    DoubleType& subtract(const IntType& ft);
+
+    DoubleType& multiply( double operand )
+    {
+        if (value != nullptr) 
+            *value *= operand;
+
+        return *this;
+    }
+
+    DoubleType& multiply(const FloatType& ft);
+    DoubleType& multiply(const DoubleType& ft);
+    DoubleType& multiply(const IntType& ft);
     
-    // DoubleType/IntType object instanciation and method tests
-    // --------
-    std::cout << "Initial value of dt: " << dt.value << std::endl;
-    std::cout << "Initial value of it: " << it.value << std::endl;
-    // --------
-    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << (dt.multiply(it).divide(5.0f).add(ft).value) << std::endl;
 
-    std::cout << "---------------------\n" << std::endl; 
+    DoubleType& divide( double operand )
+    {
+        if (operand == 0.0)
+            std::cout << "warning: floating point division by zero!" << std::endl;
+
+        if (value != nullptr)
+            *value /= operand;
+
+        return *this;
+    }
+
+    DoubleType& divide(const FloatType& ft);
+    DoubleType& divide(const DoubleType& ft);
+    DoubleType& divide(const IntType& ft);
+};
+
+struct IntType
+{
+    int* value = nullptr;
+
+    IntType(int _value) : value(new int(_value))
+    {
     
-    // Intercept division by 0
-    // --------
-    std::cout << "Intercept division by 0 " << std::endl;
-    std::cout << "New value of it = it / 0 = " << it.divide(0).value << std::endl;
-    std::cout << "New value of ft = ft / 0 = " << ft.divide(0).value << std::endl;
-    std::cout << "New value of dt = dt / 0 = " << dt.divide(0).value << std::endl;
+    }
+    ~IntType()
+    {
+        delete value;
+    }
 
-    std::cout << "---------------------\n" << std::endl; 
+    IntType& add( int operand )
+    {
+        if (value != nullptr)    
+            *value += operand;
 
-    std::cout << "good to go!\n";
+        return *this;
+    }
 
-    return 0;
+    IntType& add(const FloatType& ft);
+    IntType& add(const DoubleType& ft);
+    IntType& add(const IntType& ft);
+
+    IntType& subtract( int operand )
+    {
+        if (value != nullptr)   
+            *value -= operand;
+
+        return *this;
+    }
+
+    IntType& subtract(const FloatType& ft);
+    IntType& subtract(const DoubleType& ft);
+    IntType& subtract(const IntType& ft);
+
+    IntType& multiply( int operand )
+    {
+        if (value != nullptr) 
+            *value *= operand;
+
+        return *this;
+    }
+
+    IntType& multiply(const FloatType& ft);
+    IntType& multiply(const DoubleType& ft);
+    IntType& multiply(const IntType& ft);
+    
+    IntType& divide( int operand )
+    {
+        if (operand != 0)
+        {
+            *value /= operand;    
+        }
+        else
+        {
+            std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl ;
+        }
+        return *this;
+    }
+
+    IntType& divide(const FloatType& ft);
+    IntType& divide(const DoubleType& ft);
+    IntType& divide(const IntType& ft);
+};
+
+FloatType& FloatType::add(const FloatType& ft)
+{
+    return add(*ft.value);
 }
 
+FloatType& FloatType::add(const DoubleType& ft)
+{
+    return add(*ft.value);
+}
 
+FloatType& FloatType::add(const IntType& ft)
+{
+    return add(*ft.value);
+}
+
+FloatType& FloatType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+FloatType& FloatType::subtract(const DoubleType& ft)
+{
+    return subtract(*ft.value);
+}
+
+FloatType& FloatType::subtract(const IntType& ft)
+{
+    return subtract(*ft.value);
+}
+
+FloatType& FloatType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+FloatType& FloatType::multiply(const DoubleType& ft)
+{
+    return multiply(*ft.value);
+}
+
+FloatType& FloatType::multiply(const IntType& ft)
+{
+    return multiply(*ft.value);
+}
+
+FloatType& FloatType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
+FloatType& FloatType::divide(const DoubleType& ft)
+{
+    return divide(*ft.value);
+}
+
+FloatType& FloatType::divide(const IntType& ft)
+{
+    return divide(*ft.value);
+}
+
+DoubleType& DoubleType::add(const FloatType& ft)
+{
+    return add(*ft.value);
+}
+
+DoubleType& DoubleType::add(const DoubleType& ft)
+{
+    return add(*ft.value);
+}
+
+DoubleType& DoubleType::add(const IntType& ft)
+{
+    return add(*ft.value);
+}
+
+DoubleType& DoubleType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& ft)
+{
+    return subtract(*ft.value);
+}
+
+DoubleType& DoubleType::subtract(const IntType& ft)
+{
+    return subtract(*ft.value);
+}
+
+DoubleType& DoubleType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& ft)
+{
+    return multiply(*ft.value);
+}
+
+DoubleType& DoubleType::multiply(const IntType& ft)
+{
+    return multiply(*ft.value);
+}
+
+DoubleType& DoubleType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
+DoubleType& DoubleType::divide(const DoubleType& ft)
+{
+    return divide(*ft.value);
+}
+
+DoubleType& DoubleType::divide(const IntType& ft)
+{
+    return divide(*ft.value);
+}
+
+IntType& IntType::add(const FloatType& ft)
+{
+    return add(*ft.value);
+}
+
+IntType& IntType::add(const DoubleType& ft)
+{
+    return add(*ft.value);
+}
+
+IntType& IntType::add(const IntType& ft)
+{
+    return add(*ft.value);
+}
+
+IntType& IntType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+IntType& IntType::subtract(const DoubleType& ft)
+{
+    return subtract(*ft.value);
+}
+
+IntType& IntType::subtract(const IntType& ft)
+{
+    return subtract(*ft.value);
+}
+
+IntType& IntType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+IntType& IntType::multiply(const DoubleType& ft)
+{
+    return multiply(*ft.value);
+}
+
+IntType& IntType::multiply(const IntType& ft)
+{
+    return multiply(*ft.value);
+}
+
+IntType& IntType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
+IntType& IntType::divide(const DoubleType& ft)
+{
+    return divide(*ft.value);
+}
+
+IntType& IntType::divide(const IntType& ft)
+{
+    return divide(*ft.value);
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
@@ -176,122 +505,65 @@ int main()
  Wait for my code review.
  */
 
-#include <iostream>
+int main()
+{   
+    //testing instruction 0
+    HeapA heapA; 
 
-struct FloatType
-{
-    float add( float lhs, float rhs )
-    {
-        return lhs + rhs;
-    }
+    //assign heap primitives
+    FloatType ft ( 2.0f );
+    DoubleType dt ( 2 );
+    IntType it ( 2 ) ;
 
-    float subtract( float lhs, float rhs )
-    {
-         return lhs - rhs;
-    }
+    std::cout << "FloatType add result=" << *(ft.add( 2.0f ).value) << std::endl;
+    std::cout << "FloatType subtract result=" << *(ft.subtract( 2.0f ).value) << std::endl;
+    std::cout << "FloatType multiply result=" << *(ft.multiply( 2.0f ).value) << std::endl;
+    std::cout << "FloatType divide result=" << *(ft.divide( 16.0f).value) << std::endl << std::endl;
 
-    float multiply( float lhs, float rhs )
-    {
-         return lhs * rhs;
-    }
+    std::cout << "DoubleType add result=" << *(dt.add(2.0).value) << std::endl;
+    std::cout << "DoubleType subtract result=" << *(dt.subtract(2.0).value) << std::endl;
+    std::cout << "DoubleType multiply result=" << *(dt.multiply(2.0).value) << std::endl;
+    std::cout << "DoubleType divide result=" << *(dt.divide(5.f).value) << std::endl << std::endl;
 
-    float divide( float lhs, float rhs )
-    {
-        if (!(rhs > 0 || rhs < 0))
-            std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
-        return lhs / rhs;
-    }
-};
+    std::cout << "IntType add result=" << *(it.add(2).value) << std::endl;
+    std::cout << "IntType subtract result=" << *(it.subtract(2).value) << std::endl;
+    std::cout << "IntType multiply result=" << *(it.multiply(2).value) << std::endl;
+    std::cout << "IntType divide result=" << *(it.divide(3).value) << std::endl << std::endl;
+    std::cout << "Chain calculation = " << *((it.multiply(1000).divide(2).subtract(10).add(100)).value) << std::endl;
 
-struct DoubleType
-{
-    double add( double lhs, double rhs )
-    {
-         return lhs + rhs;
-    }
-
-    double subtract( double lhs, double rhs )
-    {
-         return lhs - rhs;
-    }
-
-    double multiply( double lhs, double rhs )
-    {
-         return lhs * rhs;
-    }
-
-    double divide( double lhs, double rhs )
-    {
-        if (!(rhs > 0 || rhs < 0))
-            std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
-        return lhs / rhs;
-    }
-};
-
-struct IntType
-{
-    int add( int lhs, int rhs )
-    {
-        return lhs + rhs;
-    }
-
-    int subtract( int lhs, int rhs )
-    {
-        return lhs - rhs;
-    }
-
-    int multiply( int lhs, int rhs )
-    {
-        return lhs * rhs;
-    }
+        // FloatType object instanciation and method tests
+    // --------
+    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << *(ft.add( 3.0f ).multiply(1.5f).divide(5.0f).value) << std::endl;
+       
+    std::cout << "---------------------\n" << std::endl; 
     
-    int divide( int lhs, int rhs )
-    {
-        if (rhs == 0)
-        {
-           std::cout << "error, integer division by zero will crash the program!" << std::endl << "returning lhs" << std::endl;
-            return lhs;
-        }
-        return lhs / rhs;
-    }
-};
+    // DoubleType/IntType object instanciation and method tests
+    // --------
+    std::cout << "Initial value of dt: " << *(dt.value) << std::endl;
+    std::cout << "Initial value of it: " << *(it.value) << std::endl;
+    // --------
+    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << *(dt.multiply(it).divide(5.0f).add(ft).value) << std::endl;
 
-int main() 
-{
-    FloatType ft;
-    std::cout << "result of ft.add(): " << ft.add( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 123.456f, 432.1f) << std::endl;
+    std::cout << "---------------------\n" << std::endl; 
+    
+    // Intercept division by 0
+    // --------
+    std::cout << "Intercept division by 0 " << std::endl;
+    std::cout << "New value of it = it / 0 = " << *(it.divide(0).value) << std::endl;
+    std::cout << "New value of ft = ft / 0 = " << *(ft.divide(0).value) << std::endl;
+    std::cout << "New value of dt = dt / 0 = " << *(dt.divide(0).value) << std::endl;
 
-    std::cout << "result of ft.add(): " << ft.add( 4444.56f, 0.0f)  << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 4444.56f, 0.0f) << std::endl;
+    std::cout << "---------------------\n" << std::endl; 
 
-    DoubleType db;
-    std::cout << "result of db.add(): " << db.add( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.subtract(): " << db.subtract( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.multiply(): " << db.multiply( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.divide(): " << db.divide( 123.456, 432.1) << std::endl;
+    std::cout << "good to go!\n";
 
-    std::cout << "result of db.add(): " << db.add( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.subtract(): " << db.subtract( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.multiply(): " << db.multiply( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.divide(): " << db.divide( 123.456, 0.0) << std::endl;
-
-    IntType i;
-    std::cout << "result of i.add(): " << i.add( 10, 20) << std::endl;
-    std::cout << "result of i.subtract(): " << i.subtract( 10, 20) << std::endl;
-    std::cout << "result of i.multiply(): " << i.multiply( 10, 20) << std::endl;
-    std::cout << "result of i.divide(): " << i.divide( 10, 20) << std::endl;
-
-    std::cout << "result of i.add(): " << i.add( 10, 0) << std::endl;
-    std::cout << "result of i.subtract(): " << i.subtract( 10, 0) << std::endl;
-    std::cout << "result of i.multiply(): " << i.multiply( 10, 0) << std::endl;
-    std::cout << "result of i.divide(): " << i.divide( 10, 0) << std::endl;
-
-    std::cout << "good to go!" << std::endl;
+    return 0;
 }
+
+
+
+
+
 
 
