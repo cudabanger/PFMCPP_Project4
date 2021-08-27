@@ -126,113 +126,112 @@ struct FloatType
 {
     float* value = nullptr;
 
-    FloatType(float _value) : value(new float(_value))
-    {
-    }
-    ~FloatType()
-    {
-        delete value;
-    }
+    FloatType(float _value) : value(new float(_value)) { }
+    ~FloatType() { delete value; }
 
-    FloatType& add( float operand )
-    {
-        if (value != nullptr)    
-            *value += operand;
-
-        return *this;
-    }
-
-    FloatType& subtract( float operand )
-    {
-        if (value != nullptr)   
-            *value -= operand;
-
-        return *this;
-    }
-
-    FloatType& multiply( float operand )
-    {
-        if (value != nullptr) 
-            *value *= operand;
-
-        return *this;
-    }
-
-    FloatType& divide( float operand )
-    {
-        if (operand == 0.f)
-            std::cout << "warning: floating point division by zero!" << std::endl; 
-
-        if (value != nullptr)
-            *value /= operand;
-
-        return *this;
-    }
+    FloatType& add( float operand );
+    FloatType& subtract( float operand );
+    FloatType& multiply( float operand );
+    FloatType& divide( float operand );
 };
+
+FloatType& FloatType::add( float operand )
+{
+    if (value != nullptr)    
+        *value += operand;
+
+    return *this;
+}
+
+FloatType& FloatType::subtract( float operand )
+{
+    if (value != nullptr)   
+        *value -= operand;
+
+    return *this;
+}
+
+FloatType& FloatType::multiply( float operand )
+{
+    if (value != nullptr) 
+        *value *= operand;
+
+    return *this;
+}
+
+FloatType& FloatType::divide( float operand )
+{
+    if (operand == 0.f)
+        std::cout << "warning: floating point division by zero!" << std::endl; 
+
+    if (value != nullptr)
+        *value /= operand;
+
+    return *this;
+}
 
 struct DoubleType
 {
     double* value = nullptr;
 
-    DoubleType(double _value) : value(new double(_value))
-    {
-        
-    }
-    ~DoubleType()
-    {
-        delete value;
-    }
+    DoubleType(double _value) : value(new double(_value)) { }
+    ~DoubleType() { delete value; }
 
-    DoubleType& add( double operand )
-    {
-        if (value != nullptr)    
-            *value += operand;
-
-        return *this;
-    }
-
-    DoubleType& subtract( double operand )
-    {
-        if (value != nullptr)   
-            *value -= operand;
-
-        return *this;
-    }
-
-    DoubleType& multiply( double operand )
-    {
-        if (value != nullptr) 
-            *value *= operand;
-
-        return *this;
-    }
-    
-    DoubleType& divide( double operand )
-    {
-        if (operand == 0.0)
-            std::cout << "warning: floating point division by zero!" << std::endl;
-
-        if (value != nullptr)
-            *value /= operand;
-
-        return *this;
-    }
+    DoubleType& add( double operand );
+    DoubleType& subtract( double operand );
+    DoubleType& multiply( double operand );
+    DoubleType& divide( double operand );
 };
+
+DoubleType& DoubleType::add( double operand )
+{
+    if (value != nullptr)    
+        *value += operand;
+
+    return *this;
+}
+
+DoubleType& DoubleType::subtract( double operand )
+{
+    if (value != nullptr)   
+        *value -= operand;
+
+    return *this;
+}
+
+DoubleType& DoubleType::multiply( double operand )
+{
+    if (value != nullptr) 
+        *value *= operand;
+
+    return *this;
+}
+    
+DoubleType& DoubleType::divide( double operand )
+{
+    if (operand == 0.0)
+        std::cout << "warning: floating point division by zero!" << std::endl;
+
+    if (value != nullptr)
+        *value /= operand;
+
+    return *this;
+}
 
 struct IntType
 {
     int* value = nullptr;
 
-    IntType(int _value) : value(new int(_value))
-    {
-    
-    }
-    ~IntType()
-    {
-        delete value;
-    }
+    IntType(int _value) : value(new int(_value)) { }
+    ~IntType() { delete value; }
 
-    IntType& add( int operand )
+    IntType& add( int operand );
+    IntType& subtract( int operand );
+    IntType& multiply( int operand );
+    IntType& divide( int operand );
+};
+
+IntType& IntType::add( int operand )
     {
         if (value != nullptr)    
             *value += operand;
@@ -240,7 +239,7 @@ struct IntType
         return *this;
     }
 
-    IntType& subtract( int operand )
+    IntType& IntType::subtract( int operand )
     {
         if (value != nullptr)   
             *value -= operand;
@@ -248,7 +247,7 @@ struct IntType
         return *this;
     }
 
-    IntType& multiply( int operand )
+    IntType& IntType::multiply( int operand )
     {
         if (value != nullptr) 
             *value *= operand;
@@ -256,7 +255,7 @@ struct IntType
         return *this;
     }
     
-    IntType& divide( int operand )
+    IntType& IntType::divide( int operand )
     {
         if (operand != 0)
         {
@@ -268,8 +267,6 @@ struct IntType
         }
         return *this;
     }
-};
-
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
