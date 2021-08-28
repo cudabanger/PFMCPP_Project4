@@ -235,7 +235,6 @@ struct IntType
     IntType& divide( int operand );
 
     operator int() { return *value; }
-    //operator double() { return static_cast<double>(*value); }
 
 private:
     int* value = nullptr;
