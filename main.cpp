@@ -132,7 +132,7 @@ struct FloatType
     FloatType& multiply( float operand );
     FloatType& divide( float operand );
 
-    operator float() { return static_cast<float>(*value); }
+    operator float() { return *value; }
 
 private:
     float* value = nullptr;
@@ -183,7 +183,7 @@ struct DoubleType
     DoubleType& multiply( double operand );
     DoubleType& divide( double operand );
 
-    operator double() { return static_cast<double>(*value); }
+    operator double() { return *value; }
 
 private:
     double* value = nullptr;
